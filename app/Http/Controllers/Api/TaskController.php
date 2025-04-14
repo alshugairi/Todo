@@ -39,14 +39,6 @@ class TaskController extends Controller
         );
     }
 
-    public function update(TaskRequest $request, Task $task): Response
-    {
-        return Response::response(
-            message: __(key:'share.request_successfully'),
-            data: $this->service->update(data: $request->validated(), id: $task->id)
-        );
-    }
-
     public function destroy(Task $task): Response
     {
         if ($task->user_id !== auth()->id()) {
@@ -58,6 +50,21 @@ class TaskController extends Controller
         $this->service->delete(id: $task->id);
         return Response::response(
             message: __(key:'share.deleted_successfully'),
+        );
+    }
+
+    public function update(TaskRequest $request, Task $task): Response
+    {
+        if ($task->user_id !== auth()->id()) {
+            return Response::error(
+                message: __(key:'share.unauthorized'),
+                status: HttpStatus::HTTP_UNAUTHORIZED
+            );
+        }
+        $this->service->update(data: $request->validated(), id: $task->id);
+
+        return Response::response(
+            message: __(key:'share.updated_successfully'),
         );
     }
 }

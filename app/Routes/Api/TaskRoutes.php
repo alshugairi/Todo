@@ -15,7 +15,8 @@ class TaskRoutes implements RoutesInterface
     {
         Route::group(attributes: ['middleware' => ['auth:sanctum']], routes: static function () {
 
-            //Route::post('tasks/{task}/complete', [TaskController::class, 'complete']);
+//            Route::post('tasks/{task}/complete', [TaskController::class, 'complete']);
+            Route::post('tasks/{task}/update', [TaskController::class, 'update']);
             Route::resource(name: 'tasks', controller: TaskController::class);
         });
     }
