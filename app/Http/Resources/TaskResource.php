@@ -4,6 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\Storage;
 
 class TaskResource extends JsonResource
 {
@@ -24,7 +25,7 @@ class TaskResource extends JsonResource
             'description' => $this->description,
             'priority' => $this->priority,
             'completed' => (bool)$this->completed,
-            'created_at' => $this->created_at->format('Y-m-d H:i:s'),
-        ];
+            'file_path' => $this->file_path ? Storage::disk('public')->url($this->file_path) : null,
+            'created_at' => $this->created_at->format('Y-m-d H:i:s'),        ];
     }
 }

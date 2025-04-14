@@ -33,6 +33,11 @@ class TaskController extends Controller
     {
         $data = $request->validated();
         $data['user_id'] = auth()->id();
+
+        if (!empty($data['attachment'])) {
+            $data['file_path'] = $this->service->uploadAttachment($data['attachment']);
+        }
+
         return Response::response(
             message: __(key:'share.request_successfully'),
             data: $this->service->create(data: $data),
@@ -61,7 +66,14 @@ class TaskController extends Controller
                 status: HttpStatus::HTTP_UNAUTHORIZED
             );
         }
-        $this->service->update(data: $request->validated(), id: $task->id);
+
+        $data = $request->validated();
+
+        if (!empty($data['attachment'])) {
+            $data['file_path'] = $this->service->uploadAttachment($data['attachment']);
+        }
+
+        $this->service->update(data: $data, id: $task->id);
 
         return Response::response(
             message: __(key:'share.updated_successfully'),

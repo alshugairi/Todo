@@ -28,7 +28,11 @@ class TaskRequest extends FormRequest
             'description' => 'required|string',
             'completed' => 'required|bool',
             'priority' => 'required|string|in:low,medium,high',
-            //'attachment' => 'nullable|file|mimes:pdf|max:2048',
+            'attachment' => [
+                'nullable',
+                'string',
+                'regex:/^data:application\/pdf;base64,[A-Za-z0-9+\/=]+$/',
+            ],
         ];
     }
 }
