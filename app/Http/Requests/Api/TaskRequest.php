@@ -23,9 +23,13 @@ class TaskRequest extends FormRequest
      */
     public function rules(): array
     {
+        dd(555);
         return [
             'title' => 'required|string|max:255',
             'description' => 'required|string',
+            'completed' => 'required|bool',
+            'priority' => 'required|string|in:low,medium,high',
+            //'attachment' => 'nullable|file|mimes:pdf|max:2048',
         ];
     }
 }
